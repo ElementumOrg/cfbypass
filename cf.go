@@ -22,6 +22,9 @@ var (
 
 	// LogEnabled sets logging setting to dump all requests and responses
 	LogEnabled = false
+
+	// LogBodyEnabled sets logging response body
+	LogBodyEnabled = false
 )
 
 // RunProxy checks goproxy response and solves the CloudFlare challenge if needed
@@ -193,15 +196,15 @@ func solveCloudFlare(resp *http.Response, ctx *goproxy.ProxyCtx) (*http.Response
 	req.ContentLength = 0
 
 	if LogEnabled {
-		dumpRequest(req, ctx, true, true)
+		dumpRequest(req, ctx, true, LogBodyEnabled)
 	} else {
-		dumpRequest(req, ctx, false, true)
+		dumpRequest(req, ctx, false, false)
 	}
 	cfResponse, err := ctx.RoundTrip(req)
 	if LogEnabled {
-		dumpResponse(cfResponse, ctx, true, true)
+		dumpResponse(cfResponse, ctx, true, LogBodyEnabled)
 	} else {
-		dumpResponse(cfResponse, ctx, false, true)
+		dumpResponse(cfResponse, ctx, false, false)
 	}
 
 	if cfResponse != nil && err == nil {
