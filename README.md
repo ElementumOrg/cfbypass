@@ -24,3 +24,30 @@ Example of usage:
 
         return resp
     }
+
+Or with HttpClient:
+
+    httpClient = &http.Client{}
+
+	buffer := new(bytes.Buffer)
+	req, err := http.NewRequest("GET", "https://test.com/", buffer)
+	if err != nil {
+		return err
+	}
+
+	// Set custom headers
+	req.Header.Add("User-Agent", `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.27 Safari/537.36`)
+
+	resp, err := httpClient.Do(req)
+	if err != nil {
+		return err
+	}
+
+	if IsCloudFlared(resp) {
+		if resp, err = RunClient(resp, httpClient); err != nil {
+            return err
+	    }
+	}
+
+    // Here you should already have response, 
+    // after solving CloudFlare and re-requesting from destination website.
