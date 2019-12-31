@@ -17,7 +17,7 @@ Example of usage:
         }
 
         if cfResp, err := cfbypass.RunProxy(resp, ctx); err != nil {
-            log.Warningf("Could not solve the CloudFlare challenge: ", err)
+            log.Warningf("Could not solve the CloudFlare challenge: %s", err)
         } else if cfResp != nil {
             return cfResp
         }
