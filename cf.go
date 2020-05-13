@@ -38,7 +38,7 @@ var (
 	reFormInputValue = regexp.MustCompile(`(?s)value=\"(.*?)\"`)
 
 	reJavaScript = regexp.MustCompile(`(?s)\<script type\=\"text\/javascript\"\>\n(.*?)\<\/script\>`)
-	reChallenge  = regexp.MustCompile(`(?s)setTimeout\(function\(\){\s*(var s,t,o,p,b,r,e,a,k,i,n,g,f.+?\r?\n[\s\S]+?a\.value\s*=.+?)\r?\n(?:[^{<>]*},\s*(\d{4,}))?`)
+	reChallenge  = regexp.MustCompile(`(?s)setTimeout\(function\(\){\s*(var s,t,o,p.?b,r,e,a,k,i,n,g,f.+?\r?\n[\s\S]+?a\.value\s*=.+?)\r?\n(?:[^{<>]*},\s*(\d{4,}))?`)
 	reAValue     = regexp.MustCompile(`(?s)a\.value\s*\=`)
 
 	reReplaceItalics = regexp.MustCompile(`(?s)\(\"\"\)\[\"italics\"\]\(\)`)
@@ -183,7 +183,7 @@ func solveCloudFlare(resp *http.Response, originalReq *http.Request, caller call
 		}
 	}
 
-	// Check for mandatory parameters 
+	// Check for mandatory parameters
 	if method == "POST" {
 		for _, k := range []string{"jschl_vc", "pass"} {
 			if formPost.Get(k) == "" {
